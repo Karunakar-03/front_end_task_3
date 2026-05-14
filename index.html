@@ -1,156 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management System</title>
 
-  <title>Student Management System</title>
-
-  <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-  <div class="main-container">
+    <div class="main-container">
 
-    <!-- Header -->
+        <!-- HEADER -->
 
-    <div class="top-section">
+        <div class="top-section">
 
-      <div class="title-box">
-        <h1>🎓 Student Management System</h1>
-        <p>Add, manage and track student details easily</p>
-      </div>
+            <div class="title-box">
+                <h1>🎓 Student Management System</h1>
+                <p>Manage and track student records easily</p>
+            </div>
 
-      <div class="top-right">
-        <button class="view-btn">View Students</button>
-      </div>
+            <button type="button" class="view-btn">
+                View Students
+            </button>
+
+        </div>
+
+        <!-- FORM SECTION -->
+
+        <div class="form-container">
+
+            <h2>Add New Student</h2>
+
+            <form class="student-form">
+
+                <div class="input-box">
+                    <label>Student Name</label>
+                    <input type="text" placeholder="Enter student name">
+                </div>
+
+                <div class="input-box">
+                    <label>Age</label>
+                    <input type="number" placeholder="Enter age">
+                </div>
+
+                <div class="input-box">
+                    <label>Course</label>
+
+                    <select>
+                        <option>Select Course</option>
+                        <option>Python</option>
+                        <option>Java</option>
+                        <option>React JS</option>
+                        <option>Data Science</option>
+                    </select>
+                </div>
+
+                <div class="input-box">
+                    <label>Email</label>
+                    <input type="email" placeholder="Enter email">
+                </div>
+
+                <div class="input-box">
+                    <label>Phone Number</label>
+                    <input type="text" placeholder="Enter phone number">
+                </div>
+
+                <div class="input-box">
+                    <label>City</label>
+                    <input type="text" placeholder="Enter city">
+                </div>
+
+            </form>
+
+            <!-- BUTTONS -->
+
+            <div class="button-group">
+
+                <button type="button" class="add-btn">
+                    + Add Student
+                </button>
+
+                <button type="button" class="reset-btn">
+                    Reset
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- COUNT SECTION -->
+
+        <div class="student-count">
+
+            <div class="count-card">
+                <h3>Total Students</h3>
+                <span>0</span>
+            </div>
+
+            <div class="count-card">
+                <h3>Courses</h3>
+                <span>4</span>
+            </div>
+
+            <div class="count-card">
+                <h3>Active</h3>
+                <span>0</span>
+            </div>
+
+        </div>
+
+        <!-- TABLE SECTION -->
+
+        <div class="table-section">
+
+            <div class="table-header">
+
+                <h2>Student Records</h2>
+
+                <input type="search"
+                placeholder="Search Student..."
+                class="search-box">
+
+            </div>
+
+            <div class="table-container">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Age</th>
+                            <th>Course</th>
+                            <th>Email</th>
+                            <th>City</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td colspan="8" class="empty">
+                                No Students Added Yet
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
 
     </div>
+<script>
 
+let count = 0;
 
-    <!-- Form Section -->
+const addBtn = document.querySelector(".add-btn");
 
-    <div class="form-container">
+addBtn.addEventListener("click", function(){
 
-      <h2>Add New Student</h2>
+    const name = document.querySelector('input[type="text"]').value;
+    const age = document.querySelector('input[type="number"]').value;
+    const course = document.querySelector("select").value;
 
-      <form class="student-form">
+    if(name === "" || age === "" || course === "Select Course"){
+        alert("Please fill all fields");
+        return;
+    }
 
-        <div class="input-box">
-          <label>Student Name</label>
-          <input type="text" placeholder="Enter student name">
-        </div>
+    count++;
 
-        <div class="input-box">
-          <label>Age</label>
-          <input type="number" placeholder="Enter age">
-        </div>
+    document.querySelector(".count-card span").innerText = count;
 
-        <div class="input-box">
-          <label>Course</label>
-          <select>
-            <option>Select Course</option>
-            <option>Python</option>
-            <option>Java</option>
-            <option>React JS</option>
-            <option>Data Science</option>
-          </select>
-        </div>
+    const tbody = document.querySelector("tbody");
 
-        <div class="input-box">
-          <label>Email</label>
-          <input type="email" placeholder="Enter email">
-        </div>
+    /* REMOVE EMPTY MESSAGE */
 
-        <div class="input-box">
-          <label>Phone Number</label>
-          <input type="tel" placeholder="Enter phone number">
-        </div>
+    if(document.querySelector(".empty")){
+        document.querySelector(".empty").parentElement.remove();
+    }
 
-        <div class="input-box">
-          <label>City</label>
-          <input type="text" placeholder="Enter city">
-        </div>
+    const tr = document.createElement("tr");
 
-      </form>
+    tr.innerHTML = `
+        <td>${count}</td>
+        <td>${name}</td>
+        <td>${age}</td>
+        <td>${course}</td>
+        <td>Active</td>
+        <td>
+            <button class="delete-btn">Delete</button>
+        </td>
+    `;
 
-      <div class="button-group">
-        <button class="add-btn">+ Add Student</button>
-        <button class="reset-btn">Reset</button>
-      </div>
+    tbody.appendChild(tr);
 
-    </div>
+    /* CLEAR INPUTS */
 
+    document.querySelector('input[type="text"]').value = "";
+    document.querySelector('input[type="number"]').value = "";
+    document.querySelector("select").selectedIndex = 0;
 
-    <!-- Student Count -->
+});
 
-    <div class="student-count">
+document.addEventListener("click", function(e){
+    if(e.target.classList.contains("delete-btn")){
+        e.target.parentElement.parentElement.remove();
+        count--;
+        document.querySelector(".count-card span").innerText = count;
+    }
+});
 
-      <div class="count-card">
-        <h3>Total Students</h3>
-        <span>0</span>
-      </div>
-
-      <div class="count-card">
-        <h3>Courses</h3>
-        <span>4</span>
-      </div>
-
-      <div class="count-card">
-        <h3>Active</h3>
-        <span>0</span>
-      </div>
-
-    </div>
-
-
-    <!-- Table Section -->
-
-    <div class="table-section">
-
-      <div class="table-header">
-        <h2>Student Records</h2>
-
-        <input type="search" placeholder="Search Student..." class="search-box">
-      </div>
-
-      <div class="table-container">
-
-        <table>
-
-          <thead>
-
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Age</th>
-              <th>Course</th>
-              <th>Email</th>
-              <th>City</th>
-              <th>Status</th>
-              <th>Action</th>
-            </tr>
-
-          </thead>
-
-          <tbody>
-
-            <tr>
-              <td colspan="8" class="empty">
-                No Students Added Yet
-              </td>
-            </tr>
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  </div>
-
+</script>
 </body>
 </html>
